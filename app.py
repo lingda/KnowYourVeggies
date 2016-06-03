@@ -37,7 +37,20 @@ def processRequest(req):
             "displayText": text,
             # "data": data,
             # "contextOut": [],
-            "source": "apiai-weather-webhook-sample"
+            "source": "KnowYourVeggies"
+        }
+    if action == "show":
+        vegetable = getParam(req, "vegetable")
+        if vegetable is None:
+            text = "Do you like black radishes?"
+        else:
+            text = vegetable + " is yummy!"
+        return {
+            "speech": text,
+            "displayText": text,
+            # "data": data,
+            # "contextOut": [],
+            "source": "KnowYourVeggies"
         }
     if action == "yahooWeatherForecast":
         baseurl = "https://query.yahooapis.com/v1/public/yql?"
@@ -52,6 +65,11 @@ def processRequest(req):
     return {}
 
 
+def getParam(req, param):
+    result = req.get("result")
+    parameters = result.get("parameters")
+    return parameters.get(param)
+    
 def makeYqlQuery(req):
     result = req.get("result")
     parameters = result.get("parameters")
@@ -98,7 +116,7 @@ def makeWebhookResult(data):
         "displayText": speech,
         # "data": data,
         # "contextOut": [],
-        "source": "apiai-weather-webhook-sample"
+        "source": "KnowYourVeggies"
     }
 
 
